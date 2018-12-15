@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
 import "tidbit-eth/contracts/PushOracles/IOracleConsumer.sol";
 
-
+// This has the token, while the oracle has the methodology...
 contract RideshareOracleConsumer is IOracleConsumer {
     bytes32 public id;
     bytes public result;

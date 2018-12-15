@@ -25,24 +25,24 @@ contract EmissionsReduction is IEmissionsReduction {
     }
 
     function calculate(
-        int32[32] additionalityData,
-        int32[32] baselineData,
-        int32[32] projectData,
-        int32[32] leakageData)
-        external view returns (int32) {
+        bytes additionalityData,
+        bytes baselineData,
+        bytes projectData,
+        bytes leakageData)
+        external view returns (uint256) {
 
         bool additionalityCriteria = additionality.verify(additionalityData);
         require(additionalityCriteria);
 
-        int32 baselineEmissions = baseline.calculate(baselineData);
-        int32 projectEmissions = project.calculate(projectData);
-        int32 leakageEmissions = leakage.calculate(leakageData);
+        int256 baselineEmissions = baseline.calculate(baselineData);
+        int256 projectEmissions = project.calculate(projectData);
+        int256 leakageEmissions = leakage.calculate(leakageData);
 
         // TODO: Add FixedPointSafeMath.  Convert to int256?
         require(projectEmissions > leakageEmissions);
         require(baselineEmissions > projectEmissions + leakageEmissions);
 
-        return baselineEmissions - projectEmissions - leakageEmissions;
+        return uint256(baselineEmissions - projectEmissions - leakageEmissions);
 
     }
 
